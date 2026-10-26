@@ -6,6 +6,11 @@ Minimal native Windows desktop application built with Rust and `native-windows-g
 - **Framework**: `native-windows-gui` v1.0.13 (pure native Win32 controls, no WebView, no .NET, no Slint).
 - **Subsystem**: `#![windows_subsystem = "windows"]` (zero console window flash).
 - **Window**: Resizable native Win32 window titled `dgi` (~1000x700), standard minimize/maximize/close controls.
+- **Tabs**: Native tab control (`TabsContainer`) hosting three placeholder pages:
+  - `Scalper`: UI placeholder with large centered title text.
+  - `Replace`: UI placeholder with large centered title text.
+  - `Settings`: UI placeholder with large centered title text.
+- **Typography & Layout**: Large Segoe UI centered text dynamically positioned and reflowed on window resize.
 - **DPI**: Per-monitor V2 DPI awareness (`SetProcessDpiAwarenessContext(-4)`).
 - **Shutdown**: Clean thread dispatch termination on `WM_CLOSE` / `OnWindowClose`.
 
