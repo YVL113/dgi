@@ -23,7 +23,13 @@ pub struct DgiAppUi {
 impl NativeUi<DgiAppUi> for DgiApp {
     fn build_ui(mut data: DgiApp) -> Result<DgiAppUi, nwg::NwgError> {
         nwg::Window::builder()
-            .flags(nwg::WindowFlags::WINDOW | nwg::WindowFlags::VISIBLE)
+            .flags(
+                nwg::WindowFlags::WINDOW
+                    | nwg::WindowFlags::VISIBLE
+                    | nwg::WindowFlags::MINIMIZE_BOX
+                    | nwg::WindowFlags::MAXIMIZE_BOX
+                    | nwg::WindowFlags::RESIZABLE,
+            )
             .size((1000, 700))
             .position((300, 150))
             .title("dgi")
@@ -33,14 +39,12 @@ impl NativeUi<DgiAppUi> for DgiApp {
         let inner = std::rc::Rc::new(data);
         let evt_inner = inner.clone();
 
-        let default_handler = nwg::full_bind_event_handler(
-            &handle,
-            move |evt, _evt_data, _handle| {
+        let default_handler =
+            nwg::full_bind_event_handler(&handle, move |evt, _evt_data, _handle| {
                 if evt == nwg::Event::OnWindowClose {
                     evt_inner.on_window_close();
                 }
-            },
-        );
+            });
 
         Ok(DgiAppUi {
             inner,
