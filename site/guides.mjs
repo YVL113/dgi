@@ -52,6 +52,23 @@ export const guides = [
       '<p>DGI checks the current bytes before it writes. If another process changed the asset after the replacement, DGI reports a conflict and protects the newer bytes. Rescan the folder and confirm you have the intended change selected.</p>',
     ].join('\n'),
   },
+  {
+    slug: 'fleasion-alternative',
+    title: 'A Fleasion alternative for previewing Roblox assets',
+    link: 'Fleasion alternative for asset previews',
+    description: 'See what DGI Cache Studio can preview from the local Roblox cache on Windows and what to check before downloading.',
+    image: 'dgi-preview.webp',
+    alt: 'DGI Cache Studio showing image thumbnails and an interactive model preview',
+    intro: 'DGI Cache Studio is a Windows alternative to Fleasion for browsing and previewing local Roblox assets. It builds a searchable library from the Roblox cache or a folder of files you choose.',
+    body: [
+      '<h2>What can I preview in DGI?</h2>',
+      '<ul><li><strong>Images and textures.</strong> See thumbnails in the Library and open an image at a larger size.</li><li><strong>Audio.</strong> Play supported clips and seek through them in the inspector.</li><li><strong>Meshes and models.</strong> Rotate supported 3D previews.</li><li><strong>Animations.</strong> Play supported Roblox KeyframeSequence clips on an R6 or R15 rig and scrub the timeline.</li></ul>',
+      '<h2>Where do the assets come from?</h2>',
+      '<p>DGI reads files already on your PC. It can <a href="../roblox-cache-location/">find the Roblox cache</a> automatically or scan a folder of exported assets. The library shows supported files present at the time of the scan. Some cached objects only contain asset references.</p>',
+      '<h2>What do I need to run it?</h2>',
+      '<p>DGI uses Microsoft Edge WebView2 on Windows. Interactive 3D previews require WebGL 2. You can browse and preview local assets without a Roblox API key. The <a href="../../#download">Windows installer</a> is hosted on GitHub Releases and currently requires repository access.</p>',
+    ].join('\n'),
+  },
 ];
 
 export function renderGuide(guide, origin) {

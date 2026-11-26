@@ -59,13 +59,15 @@ const html = withSearchMetadata(template, origin);
 await Promise.all([mkdir(resolve(product, 'assets'), { recursive: true }), mkdir(root, { recursive: true })]);
 
 const sitemap = origin && new URL('sitemap.xml', origin).href;
+const robots = 'User-agent: *\nAllow: /\n' +
+  (sitemap ? `\nUser-agent: OAI-SearchBot\nAllow: /\n\nSitemap: ${sitemap}\n` : '');
 const pages = [
   { path: '', image: 'dgi-preview.webp' },
   ...guides.map(guide => ({ path: `guides/${guide.slug}/`, image: guide.image })),
 ];
 await Promise.all([
   writeFile(resolve(product, 'index.html'), html),
-  writeFile(resolve(product, 'robots.txt'), 'User-agent: *\nAllow: /\n' + (sitemap ? `\nSitemap: ${sitemap}\n` : '')),
+  writeFile(resolve(product, 'robots.txt'), robots),
   copyFile(resolve(source, 'root/index.html'), resolve(root, 'index.html')),
   copyFile(resolve(source, '../src/design-system.css'), resolve(product, 'design-system.css')),
   copyFile(resolve(source, '../src-tauri/icons/128x128.png'), resolve(product, 'favicon.png')),
