@@ -110,30 +110,7 @@ h1 { font-size: clamp(2rem, 4.1vw, 3.5rem); font-weight: 750; }
 .format-icon .icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
 .preview-carousel { margin-block-start: var(--space-lg); }
-.preview-carousel[data-ready] { display: grid; max-width: 640px; margin-inline: auto; }
-.carousel-controls {
-  grid-row: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-sm);
-  margin-top: var(--space-sm);
-}
-.carousel-controls[hidden] { display: none; }
-.carousel-caption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-sm); font-size: .875rem; }
-.carousel-title { color: var(--ink); font-weight: 650; }
-.carousel-position { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.carousel-navigation { display: flex; align-items: center; gap: var(--space-xs); }
-.carousel-navigation button { min-height: 34px; }
-.carousel-navigation [data-slideshow-toggle] { min-width: 60px; font-size: .875rem; }
-.carousel-chevron {
-  width: 7px;
-  height: 7px;
-  border: solid currentColor;
-  border-width: 2px 2px 0 0;
-  transform: translateX(-1px) rotate(45deg);
-}
-.carousel-chevron--previous { transform: translateX(1px) rotate(-135deg); }
+.preview-carousel[data-ready] { max-width: 640px; margin-inline: auto; }
 .screenshot-gallery {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -148,11 +125,8 @@ h1 { font-size: clamp(2rem, 4.1vw, 3.5rem); font-weight: 750; }
   border-radius: var(--radius-sm);
   touch-action: pan-y pinch-zoom;
 }
-.screenshot-gallery a { display: grid; gap: var(--space-sm); border-radius: var(--radius-sm); }
+.screenshot-gallery a { display: block; border-radius: var(--radius-sm); }
 .screenshot-gallery img { border-radius: var(--radius-sm); cursor: zoom-in; }
-.screenshot-gallery span { color: var(--muted); font-size: .875rem; font-weight: 650; }
-.screenshot-gallery a:hover span { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.preview-carousel[data-ready] .screenshot-gallery a > span { display: none; }
 .preview-carousel[data-ready] .screenshot-gallery a:focus-visible { outline-offset: -2px; }
 
 .workspace-grid, .faq-grid {
