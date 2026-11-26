@@ -3,6 +3,7 @@ name: Build DGI desktop
 on:
   push:
     branches: [master]
+    tags: ['v[0-9]*']
   pull_request:
     branches: [master]
   workflow_dispatch:
@@ -12,7 +13,7 @@ permissions:
 
 concurrency:
   group: desktop-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
 
 jobs:
   windows:
@@ -23,6 +24,33 @@ jobs:
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+          fetch-depth: ${{ github.ref_type == 'tag' && '0' || '1' }}
+      - name: Validate release tag and scan Git history
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        run: |
+          $version = (Get-Content -Raw src-tauri/tauri.conf.json | ConvertFrom-Json).version
+          if ($version -cnotmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$' -or $env:GITHUB_REF_NAME -cne "v$version") {
+            throw 'The release tag must match the stable version in tauri.conf.json.'
+          }
+          git merge-base --is-ancestor HEAD refs/remotes/origin/master
+          if ($LASTEXITCODE -ne 0) { throw 'The release commit must be on master.' }
+
+          $sensitivePath = '(?:^|/)(?:\.env(?:\.[^/]*)?|[^/]+\.env|\.dev\.vars(?:\.[^/]*)?|[^/]+\.(?:pem|key|pfx|p12))$'
+          $tracked = git ls-files
+          if ($LASTEXITCODE -ne 0) { throw 'Could not verify the release source file list.' }
+          if ($tracked -match $sensitivePath) { throw 'The release source contains an environment or key file.' }
+
+          $scanDir = Join-Path $env:RUNNER_TEMP 'dgi-gitleaks'
+          New-Item -ItemType Directory -Path $scanDir | Out-Null
+          $archive = Join-Path $scanDir 'gitleaks.zip'
+          Invoke-WebRequest -Uri 'https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_windows_x64.zip' -OutFile $archive
+          if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne 'd29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e') {
+            throw 'Unexpected Gitleaks archive checksum.'
+          }
+          Expand-Archive -LiteralPath $archive -DestinationPath $scanDir
+          & (Join-Path $scanDir 'gitleaks.exe') git --config .github/gitleaks.toml --log-opts HEAD --redact=100 --no-banner --log-level error .
+          if ($LASTEXITCODE -ne 0) { throw 'The Git history secret scan did not pass.' }
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
@@ -42,9 +70,70 @@ jobs:
         run: cargo test --locked --manifest-path src-tauri/Cargo.toml --target x86_64-pc-windows-msvc
       - name: Build Windows x64 installer
         run: npm run tauri -- build --ci --target x86_64-pc-windows-msvc --bundles nsis -- --locked
+      - name: Scan bundled frontend for credentials
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        run: |
+          & (Join-Path $env:RUNNER_TEMP 'dgi-gitleaks/gitleaks.exe') dir --config .github/gitleaks.toml --redact=100 --no-banner --log-level error dist
+          if ($LASTEXITCODE -ne 0) { throw 'The frontend secret scan did not pass.' }
+      - name: Verify and stage the installer
+        shell: pwsh
+        run: |
+          $version = (Get-Content -Raw src-tauri/tauri.conf.json | ConvertFrom-Json).version
+          $file = "DGI_${version}_x64-setup.exe"
+          $bundle = Get-Item -LiteralPath "src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/$file"
+          $sevenZip = Join-Path $env:ProgramFiles '7-Zip/7z.exe'
+          $listing = & $sevenZip l -slt -ba $bundle.FullName
+          if ($LASTEXITCODE -ne 0) { throw 'Could not inspect the NSIS installer.' }
+          $entries = @($listing | Where-Object { $_ -like 'Path = *' } | ForEach-Object { $_.Substring(7).Replace('\', '/') })
+          $allowedEntry = '^(?:dgi\.exe|uninstall\.exe|\$PLUGINSDIR/[\w.-]+\.(?:bmp|dll))$'
+          if ($entries -notcontains 'dgi.exe' -or $entries -notcontains 'uninstall.exe' -or ($entries -notmatch $allowedEntry)) {
+            throw 'The installer payload contains unexpected files or is missing the application.'
+          }
+
+          $staging = Join-Path $env:RUNNER_TEMP 'dgi-release'
+          New-Item -ItemType Directory -Path $staging | Out-Null
+          $installer = Join-Path $staging $file
+          Copy-Item -LiteralPath $bundle.FullName -Destination $installer
+          $checksum = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+          [IO.File]::WriteAllText("${installer}.sha256", "$checksum  $file`n")
       - name: Upload installer
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: DGI-windows-x64
-          path: src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*-setup.exe
+          path: |
+            ${{ runner.temp }}/dgi-release/DGI_*_x64-setup.exe
+            ${{ runner.temp }}/dgi-release/DGI_*_x64-setup.exe.sha256
           if-no-files-found: error
+
+  release:
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    needs: windows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Download verified installer
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: DGI-windows-x64
+          path: ${{ runner.temp }}/dgi-release
+      - name: Verify the release download
+        working-directory: ${{ runner.temp }}/dgi-release
+        shell: bash
+        run: |
+          installer="DGI_${GITHUB_REF_NAME#v}_x64-setup.exe"
+          test -f "$installer"
+          test -f "$installer.sha256"
+          test "$(find . -mindepth 1 -maxdepth 1 | wc -l)" -eq 2
+          sha256sum --check --strict "$installer.sha256"
+      - name: Publish GitHub release
+        working-directory: ${{ runner.temp }}/dgi-release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          installer="DGI_${GITHUB_REF_NAME#v}_x64-setup.exe"
+          gh release create "$GITHUB_REF_NAME" "$installer" "$installer.sha256" \
+            --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes --title "DGI $GITHUB_REF_NAME"

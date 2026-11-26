@@ -2,12 +2,12 @@
 
 A Windows desktop app for browsing your local Roblox cache, previewing assets, and managing replacements with backups. DGI uses a TypeScript interface with Tauri and handles local files in Rust.
 
-[Website](https://dgi.nok02.cc/) · [Windows builds](https://github.com/YVL113/dgi/actions/workflows/build-desktop.yml?query=branch%3Amaster+is%3Asuccess)
+[Website](https://dgi.nok02.cc/) · [Windows releases](https://github.com/YVL113/dgi/releases/latest)
 
 ## Install
 
-1. Open a successful **Build DGI desktop** run in GitHub Actions. Sign in with an account that has access to this repository.
-2. Download and extract the **DGI-windows-x64** artifact, then run the `DGI_*_x64-setup.exe` installer.
+1. Open the latest GitHub release using an account that has access to this repository.
+2. Download and run the `DGI_*_x64-setup.exe` installer. The release also includes its SHA-256 checksum.
 
 DGI uses Microsoft Edge WebView2. 3D previews require WebGL 2, and audio playback depends on the WebView's codecs.
 
@@ -57,5 +57,9 @@ DGI reads `studio-rig-meshes.json` from `%LOCALAPPDATA%\com.dgi.desktop`. The ve
 </details>
 
 The [website source and deploy instructions](site/README.md) are in `site/`. See [AGENTS.md](AGENTS.md) for the shared Ghost Acrylic design system.
+
+### Publish a release
+
+Push a version tag such as `v0.1.0` on `master` that matches the version in `src-tauri/tauri.conf.json`. GitHub Actions checks the tagged history and the compiled frontend for secrets, verifies the Windows installer payload, and publishes the installer and SHA-256 checksum on GitHub Releases. Branch and pull request builds are available as Actions artifacts.
 
 DGI Cache Studio is an independent desktop utility unaffiliated with Roblox Corporation.

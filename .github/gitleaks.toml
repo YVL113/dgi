@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "roblox-open-cloud-key"
+description = "Hardcoded Roblox Open Cloud key"
+regex = '''(?i)\b(?:DGI[_-]?)?(?:ROBLOX|RBX)[_-]?(?:(?:OPEN[_-]?CLOUD|CLOUD|ASSET[_-]?DELIVERY)[_-]?)?(?:API[_-]?)?KEY\b["']?\s*[:=]\s*["']?([A-Za-z0-9_+./=-]{24,})'''
+secretGroup = 1
