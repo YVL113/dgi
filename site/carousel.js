@@ -4,16 +4,18 @@ const swipeDistance = 48;
 function setupCarousel(carousel) {
   const gallery = carousel.querySelector('.screenshot-gallery');
   const slides = [...gallery.children];
+  const previousButton = carousel.querySelector('[data-slide-previous]');
+  const nextButton = carousel.querySelector('[data-slide-next]');
   const motion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
   let active = 0;
   let visible = !('IntersectionObserver' in window);
-  let hovered = gallery.matches(':hover') && window.matchMedia?.('(hover: hover)').matches;
+  let hovered = carousel.matches(':hover') && window.matchMedia?.('(hover: hover)').matches;
   let timer;
   let touch;
 
   function schedule() {
     clearTimeout(timer);
-    if (visible && !motion?.matches && !hovered && !touch && !document.hidden && !gallery.matches(':focus-within')) {
+    if (visible && !motion?.matches && !hovered && !touch && !document.hidden && !carousel.matches(':focus-within')) {
       timer = setTimeout(() => advance(1), advanceInterval);
     }
   }
@@ -34,6 +36,10 @@ function setupCarousel(carousel) {
   slides.slice(1).forEach(slide => { slide.hidden = true; });
   carousel.dataset.ready = '';
   carousel.setAttribute('aria-roledescription', 'carousel');
+  previousButton.hidden = false;
+  nextButton.hidden = false;
+  previousButton.addEventListener('click', () => advance(-1));
+  nextButton.addEventListener('click', () => advance(1));
 
   carousel.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
@@ -41,14 +47,14 @@ function setupCarousel(carousel) {
     event.preventDefault();
     advance(event.key === 'ArrowLeft' ? -1 : 1);
   });
-  gallery.addEventListener('focusin', schedule);
-  gallery.addEventListener('focusout', () => queueMicrotask(schedule));
-  gallery.addEventListener('pointerenter', event => {
+  carousel.addEventListener('focusin', schedule);
+  carousel.addEventListener('focusout', () => queueMicrotask(schedule));
+  carousel.addEventListener('pointerenter', event => {
     if (event.pointerType !== 'mouse') return;
     hovered = true;
     schedule();
   });
-  gallery.addEventListener('pointerleave', event => {
+  carousel.addEventListener('pointerleave', event => {
     if (event.pointerType !== 'mouse') return;
     hovered = false;
     schedule();

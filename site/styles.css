@@ -110,7 +110,27 @@ h1 { font-size: clamp(2rem, 4.1vw, 3.5rem); font-weight: 750; }
 .format-icon .icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
 .preview-carousel { margin-block-start: var(--space-lg); }
-.preview-carousel[data-ready] { max-width: 640px; margin-inline: auto; }
+.preview-carousel[data-ready] { position: relative; max-width: 640px; margin-inline: auto; }
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.carousel-arrow[hidden] { display: none; }
+.carousel-arrow--previous { inset-inline-start: var(--space-sm); }
+.carousel-arrow--next { inset-inline-end: var(--space-sm); }
+.carousel-arrow::before {
+  width: 8px;
+  height: 8px;
+  border: solid currentColor;
+  border-width: 2px 2px 0 0;
+  content: "";
+  transform: translateX(-2px) rotate(45deg);
+}
+.carousel-arrow--previous::before { transform: translateX(2px) rotate(-135deg); }
 .screenshot-gallery {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
