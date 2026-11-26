@@ -6,6 +6,8 @@ function setupCarousel(carousel) {
   const slides = [...gallery.children];
   const controls = carousel.querySelector('.carousel-controls');
   const toggle = controls.querySelector('[data-slideshow-toggle]');
+  const caption = controls.querySelector('[data-slide-caption]');
+  const title = controls.querySelector('[data-slide-title]');
   const position = controls.querySelector('[data-slide-position]');
   const motion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
   let active = 0;
@@ -31,15 +33,18 @@ function setupCarousel(carousel) {
     const next = slides[active];
     next.dataset.enter = direction > 0 ? 'next' : 'previous';
     next.hidden = false;
-    position.textContent = `${active + 1} / ${slides.length}`;
+    title.textContent = next.querySelector('a > span').textContent;
+    position.textContent = `${active + 1} of ${slides.length}`;
     if (restoreFocus) next.querySelector('a').focus({ preventScroll: true });
     schedule();
   }
 
   function setPlaying(value) {
     playing = value;
-    toggle.textContent = playing ? 'Pause slideshow' : 'Play slideshow';
-    position.setAttribute('aria-live', playing ? 'off' : 'polite');
+    const action = playing ? 'Pause' : 'Play';
+    toggle.textContent = action;
+    toggle.setAttribute('aria-label', `${action} slideshow`);
+    caption.setAttribute('aria-live', playing ? 'off' : 'polite');
     schedule();
   }
 
