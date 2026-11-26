@@ -80,11 +80,31 @@ h1 { font-size: clamp(2rem, 4.1vw, 3.5rem); font-weight: 750; }
   .hero-preview img { mask-image: linear-gradient(to bottom, #000 48%, transparent 100%); }
 }
 
-.preview-section, .workspace-grid, .faq-grid, .download-section {
+.preview-section, .workspace-grid, .guide-section, .faq-grid, .download-section {
   padding-block: clamp(24px, 4vw, 44px);
 }
 .section-heading h2 { font-size: clamp(1.4rem, 2.15vw, 1.95rem); font-weight: 700; }
 .section-heading p { max-width: 52ch; margin-top: var(--space-sm); color: var(--muted); text-wrap: pretty; }
+
+.guide-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr));
+  gap: var(--space-md);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.guide-link { display: block; height: 100%; padding: var(--space-md); font-weight: 650; }
+.guide-link:hover { background: var(--surface-low); text-decoration: underline; text-underline-offset: 3px; }
+.guide-page { max-width: 780px; padding-block: clamp(32px, 6vw, 72px); }
+.guide-page h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+.guide-page h2 { margin-block: var(--space-xl) var(--space-sm); font-size: clamp(1.2rem, 2vw, 1.55rem); }
+.guide-page p { color: var(--muted); }
+.guide-intro { margin-block: var(--space-md) var(--space-lg); }
+.guide-page img { border-radius: var(--radius-sm); }
+.guide-page li + li { margin-top: var(--space-xs); }
+.guide-page code { overflow-wrap: anywhere; }
+.guide-related a { text-decoration: underline; text-underline-offset: 3px; }
 
 .format-list {
   display: grid;

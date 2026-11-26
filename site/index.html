@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DGI Cache Studio | Roblox Cache Viewer for Windows</title>
-  <meta name="description" content="Browse the local Roblox cache on Windows with DGI Cache Studio. Preview images, audio, 3D models, and animations, and organize assets in a local workspace.">
+  <title>Roblox Cache Viewer for Windows | DGI Cache Studio</title>
+  <meta name="description" content="Browse the Roblox cache on Windows with DGI Cache Studio. Preview textures, audio, 3D models, and R6 or R15 animations from the local Library.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f8f9fb" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="DGI Cache Studio">
-  <meta property="og:title" content="DGI Cache Studio | Roblox Cache Viewer for Windows">
+  <meta property="og:title" content="Roblox Cache Viewer for Windows | DGI Cache Studio">
   <meta property="og:description" content="Find and preview images, audio, 3D models, and animations from your local Roblox cache.">
   <meta property="og:image" content="./assets/dgi-share.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="DGI Cache Studio on Windows with a 3D model open in the Library">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="DGI Cache Studio | Roblox Cache Viewer for Windows">
+  <meta name="twitter:title" content="Roblox Cache Viewer for Windows | DGI Cache Studio">
   <meta name="twitter:description" content="Find and preview images, audio, 3D models, and animations from your local Roblox cache.">
   <meta name="twitter:image" content="./assets/dgi-share.webp">
-  <link rel="icon" href="./assets/dgi-wordmark.png" type="image/png">
+  <link rel="icon" href="./favicon.png" type="image/png" sizes="128x128">
   <script src="./theme.js"></script>
   <link rel="preload" href="./assets/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./design-system.css">
@@ -35,6 +35,7 @@
       <nav class="nav-links" aria-label="Main navigation">
         <a class="button button--ghost" href="#previews">Previews</a>
         <a class="button button--ghost" href="#workspace">Workspace</a>
+        <a class="button button--ghost" href="#guides">Guides</a>
         <a class="button button--ghost" href="#faq">FAQ</a>
       </nav>
       <a class="button button--secondary header-download" href="#download">Downloads</a>
@@ -48,7 +49,7 @@
           <h1 id="hero-heading" translate="no">DGI Cache Studio</h1>
           <p class="hero-description">Browse the local <span translate="no">Roblox</span> cache on Windows. Preview images, audio, models, and animations in one Library.</p>
           <div class="hero-actions">
-            <a class="button button--primary" href="https://github.com/YVL113/dgi/actions/workflows/build-desktop.yml?query=branch%3Amaster+is%3Asuccess">Windows Builds</a>
+            <a class="button button--primary" href="https://github.com/YVL113/dgi/releases/latest">Windows Release</a>
             <a class="button button--secondary" href="#previews">Explore Previews</a>
           </div>
           <p class="download-status">Windows x64. GitHub repository access required.</p>
@@ -130,6 +131,15 @@
       </dl>
     </section>
 
+    <section class="site-width guide-section" id="guides" aria-labelledby="guides-heading">
+      <div class="section-heading"><h2 id="guides-heading">DGI Guides</h2></div>
+      <ul class="guide-list">
+        <li><a class="panel guide-link" href="./guides/roblox-cache-location/">Find the Roblox cache on Windows</a></li>
+        <li><a class="panel guide-link" href="./guides/preview-roblox-animations/">Preview R6 and R15 animations</a></li>
+        <li><a class="panel guide-link" href="./guides/restore-cached-assets/">Restore an original cached asset</a></li>
+      </ul>
+    </section>
+
     <section class="site-width faq-grid" id="faq" aria-labelledby="faq-heading">
       <div class="section-heading">
         <h2 id="faq-heading">Before You Install</h2>
@@ -158,9 +168,9 @@
       <div class="download-card panel">
         <div class="section-heading">
           <h2 id="download-heading">Get DGI Cache Studio</h2>
-          <p>Open a successful Windows build and download the DGI-windows-x64 artifact. Sign in with a GitHub account that has access to the repository.</p>
+          <p>Download the Windows x64 setup file from the latest release. The release also includes a SHA-256 checksum. A GitHub account with repository access is required.</p>
         </div>
-        <a class="button button--primary" href="https://github.com/YVL113/dgi/actions/workflows/build-desktop.yml?query=branch%3Amaster+is%3Asuccess">Windows Builds</a>
+        <a class="button button--primary" href="https://github.com/YVL113/dgi/releases/latest">Windows Release</a>
       </div>
     </section>
   </main>

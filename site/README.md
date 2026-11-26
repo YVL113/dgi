@@ -24,4 +24,6 @@ npx --yes wrangler@4.168.0 deploy --config site/wrangler.jsonc
 
 The production build sets the canonical URL, social metadata, and sitemap for `dgi.nok02.cc`. Wrangler publishes `site/dist/dgi` to the Worker attached to that hostname. Sign in to the Cloudflare account that manages `nok02.cc` before deploying.
 
-The Windows Builds links open the successful desktop builds in GitHub Actions. The `DGI-windows-x64` installer artifact requires repository access.
+The Windows Release links open the latest release on GitHub. The installer and its checksum require repository access.
+
+Guides in `guides.mjs` build as static pages under `/guides/`. The production sitemap includes their canonical URLs and screenshot URLs. The preview build marks each guide `noindex`.
