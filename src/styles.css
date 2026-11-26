@@ -60,11 +60,6 @@ progress, input[type="range"] { accent-color: var(--focus); }
   align-items: center;
   padding-inline: 14px 0;
   min-height: 100%;
-  white-space: nowrap;
-  font-size: 13px;
-  font-weight: 750;
-  line-height: 1.25;
-  letter-spacing: -.035em;
 }
 .nav { display: grid; align-content: start; gap: 5px; }
 .nav button, .nav a {

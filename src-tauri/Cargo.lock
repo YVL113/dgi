@@ -710,6 +710,7 @@ dependencies = [
  "tauri-plugin-dialog",
  "tauri-plugin-window-controls",
  "tempfile",
+ "windows-sys 0.61.2",
  "winreg",
  "zstd",
 ]

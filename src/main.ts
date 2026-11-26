@@ -264,10 +264,12 @@ for (const [id, label, glyph] of views) {
   nav.append(item);
 }
 const sidebar = el('aside', 'sidebar', nav, locationBar);
-const wordmark = el('div', 'wordmark', 'DGI Cache Studio');
+const brand = el('span', 'brand-wordmark', 'DGI');
+brand.setAttribute('aria-hidden', 'true');
+const wordmark = el('div', 'wordmark', brand, el('span', 'sr-only', 'DGI Cache Studio'));
 const dragSpace = el('div', 'caption-space');
 const topbar = el('header', 'topbar', wordmark, search, dragSpace);
-for (const region of [topbar, wordmark, dragSpace]) {
+for (const region of [topbar, wordmark, brand, dragSpace]) {
   region.setAttribute('data-tauri-drag-region', '');
 }
 const native = '__TAURI_INTERNALS__' in window;

@@ -763,7 +763,24 @@ pub fn run() {
                 .transparent(true)
                 .window_controls_height(44)
                 .additional_browser_args(WINDOWS_BROWSER_ARGUMENTS);
-            window.build()?.show()?;
+            let window = window.build()?;
+            #[cfg(windows)]
+            if let Ok(hwnd) = window.hwnd() {
+                use windows_sys::Win32::Graphics::Dwm::{
+                    DWMWA_WINDOW_CORNER_PREFERENCE, DWMWCP_ROUND, DwmSetWindowAttribute,
+                };
+
+                // Windows can ignore the preference on older versions or in snapped layouts.
+                unsafe {
+                    DwmSetWindowAttribute(
+                        hwnd.0,
+                        DWMWA_WINDOW_CORNER_PREFERENCE as u32,
+                        std::ptr::from_ref(&DWMWCP_ROUND).cast(),
+                        std::mem::size_of_val(&DWMWCP_ROUND) as u32,
+                    );
+                }
+            }
+            window.show()?;
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
