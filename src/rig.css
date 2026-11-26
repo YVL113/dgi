@@ -1,0 +1,96 @@
+.rig-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-width: 0;
+}
+
+.preview-stage:has(> .rig-preview, > .mesh-preview) {
+  grid-template-columns: minmax(0, 1fr);
+  background: none;
+}
+
+.mesh-preview { width: 100%; min-width: 0; }
+.mesh-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); padding-block: var(--space-sm); }
+.mesh-summary { font-size: 11px; font-variant-numeric: tabular-nums; }
+
+.rig-stage {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background-color: var(--surface);
+  background-image: var(--stipple);
+  background-size: 13px 13px;
+}
+
+.rig-stage canvas {
+  display: block;
+  width: 100%;
+  height: clamp(180px, 32vh, 320px);
+  cursor: grab;
+  touch-action: none;
+}
+
+.rig-stage canvas:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -3px;
+  border-radius: inherit;
+}
+
+.rig-stage canvas.is-dragging {
+  cursor: grabbing;
+}
+
+.rig-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding-block: var(--space-sm);
+}
+
+.rig-scrubber,
+.rig-modes {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.rig-scrubber {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.rig-scrubber button {
+  min-width: 3.9rem;
+}
+
+.rig-modes {
+  margin-inline-start: auto;
+}
+
+.rig-modes select {
+  min-height: 30px;
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
+.rig-modes .rig-loop[aria-pressed="true"] {
+  background: var(--surface);
+  border-color: var(--muted);
+}
+
+.rig-controls input[type="range"] {
+  flex: 1 1 3rem;
+  min-width: 2.5rem;
+  margin: 0;
+  accent-color: var(--ink);
+}
+
+.rig-clock {
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

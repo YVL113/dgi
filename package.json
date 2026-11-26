@@ -1,0 +1,25 @@
+{
+  "name": "dgi",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "rig:install": "node scripts/install-r6-rig.mjs",
+    "rig:install:r15": "node scripts/install-r15-rig.mjs",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "@tauri-apps/api": "^2",
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@types/three": "0.185.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.0.16"
+  }
+}
