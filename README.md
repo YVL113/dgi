@@ -4,6 +4,14 @@ A Windows desktop app for browsing your local Roblox cache, previewing assets, a
 
 [Website](https://dgi.nok02.cc/) · [Windows releases](https://github.com/YVL113/dgi/releases/latest)
 
+## Screenshots
+
+| Asset Library | R6 animation |
+| --- | --- |
+| ![Sample assets in the DGI Library with a 3D model open in the inspector](site/assets/dgi-preview.webp) | ![An imported R6 rig paused on the animation timeline](site/assets/dgi-animation.webp) |
+| **Audio playback** | **Changes and restore** |
+| ![The dark Library with audio playback, seek, and volume controls](site/assets/dgi-audio.webp) | ![The Changes page with a decal preview and restore controls](site/assets/dgi-changes.webp) |
+
 ## Install
 
 1. Open the latest GitHub release using an account that has access to this repository.
