@@ -1,0 +1,8 @@
+{
+  "name": "dgi-landing-page",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@fontsource-variable/plus-jakarta-sans": "5.3.0"
+  }
+}

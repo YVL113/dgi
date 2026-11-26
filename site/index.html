@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DGI Cache Studio | Roblox Cache Viewer for Windows</title>
+  <meta name="description" content="Browse the local Roblox cache on Windows with DGI Cache Studio. Preview images, audio, 3D models, and animations, and organize assets in a local workspace.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f8f9fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DGI Cache Studio">
+  <meta property="og:title" content="DGI Cache Studio | Roblox Cache Viewer for Windows">
+  <meta property="og:description" content="Find and preview images, audio, 3D models, and animations from your local Roblox cache.">
+  <meta property="og:image" content="./assets/dgi-share.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DGI Cache Studio on Windows with a 3D model open in the Library">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DGI Cache Studio | Roblox Cache Viewer for Windows">
+  <meta name="twitter:description" content="Find and preview images, audio, 3D models, and animations from your local Roblox cache.">
+  <meta name="twitter:image" content="./assets/dgi-share.webp">
+  <link rel="icon" href="./assets/dgi-wordmark.png" type="image/png">
+  <script src="./theme.js"></script>
+  <link rel="preload" href="./assets/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./design-system.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="button button--primary skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="site-width header-layout">
+      <a class="wordmark" href="./" aria-label="DGI Cache Studio home" translate="no">DGI</a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="button button--ghost" href="#previews">Previews</a>
+        <a class="button button--ghost" href="#workspace">Workspace</a>
+        <a class="button button--ghost" href="#faq">FAQ</a>
+      </nav>
+      <a class="button button--secondary header-download" href="#download">Downloads</a>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="site-width hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-heading" translate="no">DGI Cache Studio</h1>
+          <p class="hero-description">Browse the local <span translate="no">Roblox</span> cache on Windows. Preview images, audio, models, and animations in one Library.</p>
+          <div class="hero-actions">
+            <a class="button button--primary" href="https://github.com/YVL113/dgi/actions/workflows/build-desktop.yml?query=branch%3Amaster+is%3Asuccess">Windows Builds</a>
+            <a class="button button--secondary" href="#previews">Explore Previews</a>
+          </div>
+          <p class="download-status">Windows x64. GitHub repository access required.</p>
+        </div>
+        <figure class="hero-preview">
+          <img src="./assets/dgi-preview.webp" width="1320" height="760" alt="DGI Cache Studio Library with sample assets and a field transmitter model selected in the inspector" fetchpriority="high">
+        </figure>
+      </div>
+    </section>
+
+    <section class="site-width preview-section" id="previews" aria-labelledby="preview-heading">
+      <div class="section-heading">
+        <h2 id="preview-heading">Asset Previews</h2>
+        <p>Search by name, asset ID where available, or type. Select a result to inspect it in the Library.</p>
+      </div>
+      <ul class="format-list">
+        <li class="panel">
+          <span class="format-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z M9 9h.01 m-5 8 4.5-4.5 3 3 3.5-4 5 5.5"/></svg></span>
+          <h3>Images &amp; Textures</h3>
+          <p>Browse thumbnails and open supported textures at a larger size.</p>
+        </li>
+        <li class="panel">
+          <span class="format-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M9 18V5l11-2v13M9 18a3 2 0 1 1-6 0 3 2 0 0 1 6 0Zm11-2a3 2 0 1 1-6 0 3 2 0 0 1 6 0Z"/></svg></span>
+          <h3>Audio</h3>
+          <p>Play supported clips and seek to the part you want to hear.</p>
+        </li>
+        <li class="panel">
+          <span class="format-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Zm0 10 9-5M3 8l9 5v8"/></svg></span>
+          <h3>Meshes &amp; Models</h3>
+          <p>Rotate and zoom supported meshes and models with saved geometry.</p>
+        </li>
+        <li class="panel">
+          <span class="format-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z M8 4v16m8-16v16M4 9h4m8 0h4M4 15h4m8 0h4"/></svg></span>
+          <h3>Animations</h3>
+          <p>Scrub supported Roblox KeyframeSequences on an R6 or R15 preview rig.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="site-width workspace-grid" id="workspace" aria-labelledby="workspace-heading">
+      <div class="section-heading">
+        <h2 id="workspace-heading">Local Workspace</h2>
+        <p>Keep an editable copy of a supported asset alongside the files you import.</p>
+      </div>
+      <dl class="workflow panel">
+        <div>
+          <dt>Find the cache</dt>
+          <dd>Let DGI find the Roblox cache or choose a folder with exported assets.</dd>
+        </div>
+        <div>
+          <dt>Inspect an asset</dt>
+          <dd>Filter the Library by type and give the assets you use recognizable names.</dd>
+        </div>
+        <div>
+          <dt>Make a working copy</dt>
+          <dd>Use the editing workspace to keep local copies together. Restore a backed-up original from Changes.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="site-width faq-grid" id="faq" aria-labelledby="faq-heading">
+      <div class="section-heading">
+        <h2 id="faq-heading">Before You Install</h2>
+      </div>
+      <div class="faq-list panel">
+        <details>
+          <summary>What does DGI need on Windows?</summary>
+          <p>DGI uses Microsoft Edge WebView2. 3D previews require WebGL 2, and audio playback depends on the codecs your WebView supports.</p>
+        </details>
+        <details>
+          <summary>Do I need a Roblox API key?</summary>
+          <p>You can browse and preview local files without a key. Requests to Roblox Asset Delivery require a Roblox Open Cloud key with permission for those requests.</p>
+        </details>
+        <details>
+          <summary>Why do some assets only show details?</summary>
+          <p>Some saved Roblox objects reference separate files. When renderable data is unavailable, DGI shows available object information and asset references.</p>
+        </details>
+        <details>
+          <summary>Where are my workspace files and backups?</summary>
+          <p>DGI stores working files and backups in its app data folder on your PC. Open the editing workspace from the Changes page.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="site-width download-section" id="download" aria-labelledby="download-heading">
+      <div class="download-card panel">
+        <div class="section-heading">
+          <h2 id="download-heading">Get DGI Cache Studio</h2>
+          <p>Open a successful Windows build and download the DGI-windows-x64 artifact. Sign in with a GitHub account that has access to the repository.</p>
+        </div>
+        <a class="button button--primary" href="https://github.com/YVL113/dgi/actions/workflows/build-desktop.yml?query=branch%3Amaster+is%3Asuccess">Windows Builds</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-width footer-layout">
+      <a class="wordmark" href="./" aria-label="DGI Cache Studio home" translate="no">DGI</a>
+      <p>Independent desktop utility. Unaffiliated with Roblox Corporation.</p>
+      <a href="https://github.com/YVL113/dgi">Source on GitHub</a>
+    </div>
+  </footer>
+</body>
+</html>

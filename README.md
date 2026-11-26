@@ -1,50 +1,61 @@
 # DGI Cache Studio
 
-A Tauri desktop app for browsing and replacing supported Roblox cache assets, including database entries, wrapped cache files, and exported asset folders. The interface is TypeScript and the local file operations run in Rust.
+A Windows desktop app for browsing your local Roblox cache, previewing assets, and managing replacements with backups. DGI uses a TypeScript interface with Tauri and handles local files in Rust.
 
-## Use the app
+[Website](https://dgi.nok02.cc/) · [Windows builds](https://github.com/YVL113/dgi/actions/workflows/build-desktop.yml?query=branch%3Amaster+is%3Asuccess)
 
-1. DGI looks for the Roblox cache at startup on Windows. The Library checks for new files every three seconds, including when another app is in focus. Use **Scan cache** for a full rescan with a live file count. **Choose folder** remembers another folder for the next launch, and **Find Roblox cache** in Settings switches back to automatic discovery.
-   **Clear cache** removes loose cached assets and cached HTTP responses in the selected Roblox cache database after confirmation, then rescans the folder. Active replacements, backups, Roblox bookkeeping, and the editing workspace are kept. Roblox may download assets again while it runs.
-   The Library search shows matching assets in a dropdown. Use the arrow keys and **Enter** to open a result, or **Escape** to close the dropdown. Set **Light** or **Dark** under **Settings → Appearance**. DGI saves the choice for the next launch.
-   Use **Filters** in the Library or **Changes → Add asset** to show or hide asset types. Both views share the same filter preferences. **Clear all** makes it easy to pick just one type, and **Show all** resets the filters.
-2. Select an asset to preview an image, play audio, or scrub a KeyframeSequence on an R6 or R15 rig. Animation previews use Three.js and require WebGL 2. On Windows, DGI requests the Vulkan backend through ANGLE in WebView2. The player has speed and loop controls. Set a custom name to override the display name.
-3. Choose a replacement file or enter a numeric Roblox asset ID. DGI loads Open Cloud keys from environment variables such as `ROBLOX_OPEN_CLOUD_API_KEY`, `ROBLOX_API_KEY`, and `RBX_API_KEY`, including Windows user and system variables. **Settings → Roblox downloads** shows the key source and lets you check again, enter a different key, or clear the active key for the session. Downloads require Asset Delivery access. See the [Roblox Asset Delivery reference](https://create.roblox.com/docs/cloud/reference/features/assets) and [API key guide](https://create.roblox.com/docs/cloud/auth/api-keys).
-4. Open **Changes → Add asset** to select an existing asset or import a local file. Wrapped assets can be copied into **Editing workspace** for editing, including KTX2 textures converted to PNG. Replace the selected copy in its inspector. **Restore** and **Restore all** undo replacements in the selected folder or workspace. **Library** returns to the cache folder you were browsing.
+## Install
 
-DGI previews PNG, JPEG, GIF, WebP, BMP, supported KTX2 textures, Ogg Vorbis and Opus, MP3, WAV, FLAC, and XML or binary Roblox KeyframeSequences. Audio playback depends on the system webview's codecs. Roblox models, avatar and clothing objects, curve animations, and meshes are listed by type. Plain image bytes do not distinguish decals from other uses, so those files share the **Images & decals** filter. Supported wrapped images, audio, and KeyframeSequences can be replaced directly in the Library, including entries stored inside the cache database. Close Roblox Player before applying or restoring a cache replacement, then join again to load it. DGI preserves the HTTP wrapper, recomputes its body length and checksum, and updates the database size. KTX2 textures remain preview only in their source folder. Workspace copies are independent files. After editing a copy, use **Apply to Roblox cache** to locate its unique original by content and write the edit back. DGI refuses missing or ambiguous matches and retains the workspace file. Applying switches to the real cache entry in Changes, where Restore puts its first original back. An animation played in game may never be saved to the cache, and Roblox can evict cached files.
+1. Open a successful **Build DGI desktop** run in GitHub Actions. Sign in with an account that has access to this repository.
+2. Download and extract the **DGI-windows-x64** artifact, then run the `DGI_*_x64-setup.exe` installer.
 
-DGI uses names and source asset IDs stored in Roblox assets, along with embedded PNG and Ogg titles. Cache entries without name metadata use a type label and a short cache key. **Reset name** clears a custom name and returns to the discovered or default label. The full cache path is shown in the inspector.
+DGI uses Microsoft Edge WebView2. 3D previews require WebGL 2, and audio playback depends on the WebView's codecs.
 
-The Library includes supported images, audio, animations, and meshes stored inline in the Roblox cache database as well as loose files. Supported images, audio, and animations expose replacement controls directly on the cache entry. Preview-only formats can still be copied into the editing workspace. Select a mesh to view its geometry, rotate it by dragging, or zoom with the mouse wheel. Mesh previews use a neutral material and show the mesh in its rest pose.
+## Browse and edit assets
 
-DGI writes backups and SHA-256 records to its local app data directory. It keeps the first original through subsequent replacements and app restarts. It checks the current file before writing and verifies the result afterward. If another process changes the file, DGI reports a conflict rather than overwriting those bytes. Replacement files are limited to 32 MiB.
+- **Library** automatically looks for the Roblox cache on Windows and checks for new files every three seconds. Use **Scan cache** for a full rescan with progress, or **Choose folder** for a local export. **Settings → Find Roblox cache** returns to automatic discovery.
+- **Search and filters** narrow the Library by name, known asset ID, or type. Use the arrow keys and Enter to open a search result. Library and **Changes → Add asset** share filter preferences. Custom names can be saved or reset in the inspector.
+- **Previews** include common image formats and supported KTX2 textures, audio, meshes, and Roblox KeyframeSequences. Rotate or zoom meshes, seek within audio, and scrub animations on an R6 or R15 rig with loop and speed controls. Some stored Roblox objects only contain references or metadata.
+- **Replace** a supported image, audio clip, or KeyframeSequence from a local file or permitted Roblox asset ID. The editing workspace holds independent copies and imported files. Use **Apply to Roblox cache** to write an edited copy back when DGI can identify a unique original. Close Roblox Player before applying or restoring a cache replacement.
+- **Restore** and **Restore all** are available in Changes. DGI preserves the first original across repeated replacements and restarts, verifies writes, and reports conflicts when the cached bytes change underneath an edit. **Clear cache** removes cached assets and responses after confirmation while preserving active replacements, backups, and workspace files.
+
+DGI can preview assets Roblox has cached locally. Roblox may evict entries, and some assets are never written to disk. KTX2 textures are preview-only at the source and can be converted to PNG in the editing workspace. Replacement files are limited to 32 MiB.
+
+### Roblox downloads
+
+Local previews work without an API key. Downloads require a Roblox Open Cloud key with Asset Delivery access. DGI checks environment variables such as `ROBLOX_OPEN_CLOUD_API_KEY`, `ROBLOX_API_KEY`, and `RBX_API_KEY`, including Windows user and system variables. **Settings → Roblox downloads** can recheck the environment or accept a key for the current session. [Roblox API keys](https://create.roblox.com/docs/cloud/auth/api-keys) · [Asset Delivery](https://create.roblox.com/docs/cloud/reference/features/assets)
 
 ## Develop
 
-Rig mesh data stays on the machine that can access it through Studio. On Windows, DGI reads `studio-rig-meshes.json` from its app data directory (`%LOCALAPPDATA%\com.dgi.desktop`). The file uses `{ "version": 1, "R15": { "UpperTorso": { "vertices": [x, y, z, ...], "triangles": [a, b, c, ...] } } }` with zero-based triangle indices and vertices in the corresponding part's local Roblox stud coordinates. `R6` uses the same schema. Restart DGI after replacing the local file.
+Install Node.js, stable Rust, and the [Tauri platform prerequisites](https://v2.tauri.app/start/prerequisites/).
 
-A local export can add `r6Rig` or `r15Rig` with `parent`, `size`, `c0`, and `c1` entries for each body part. Each CFrame is stored as three position values followed by nine row-major rotation values. Parts can include an RGB `color` array. A head can include interleaved `uv` coordinates (top-left origin) and a base64 `texturePng` atlas or `frontDecalPng` from Studio.
-
-On Windows, install the supplied R6 ZIP with `npm run rig:install -- "C:\path\to\roblox-r6-rigged.zip"` after `npm ci`. The importer uses the FBX's six rigid bone regions, their pivots, and the included texture atlas. The preview matches the head's base color to the torso while keeping the atlas's expression. The importer updates R6 in the local rig pack, keeps the existing R15 data, and saves the previous pack as `studio-rig-meshes.json.before-fbx` the first time. Restart DGI to load it.
-
-After installing R6, run `npm run rig:install:r15 -- "C:\path\to\roblox-r15-rigged-obj-file.zip"` to install the supplied R15 OBJ. The importer uses the 15 named mesh groups, aligns their rest positions with the R15 joint transforms, and copies the R6 face atlas onto the compatible R15 head UVs. It backs up the previous pack as `studio-rig-meshes.json.before-r15` the first time. Restart DGI to load it.
-
-Install Node.js, stable Rust, and the [Tauri platform prerequisites](https://v2.tauri.app/start/prerequisites/). On Windows, the custom title bar uses [Tauri Window Controls](https://github.com/insd47/tauri-plugin-window-controls) for native minimize, maximize, close, and Snap Layouts support. Other platforms use their standard window decorations.
-
-~~~sh
+```sh
 npm ci
 npm run tauri dev
-~~~
+```
 
-~~~sh
+```sh
 npm run build
-cargo test --manifest-path src-tauri/Cargo.toml
+cargo test --locked --manifest-path src-tauri/Cargo.toml
 npm run tauri build
-~~~
+```
 
-## Windows builds
+The Windows title bar uses [Tauri Window Controls](https://github.com/insd47/tauri-plugin-window-controls). Three.js renders animation and mesh previews. On Windows, DGI requests the Vulkan backend through ANGLE in WebView2.
 
-GitHub Actions builds the Windows x64 installer on pushes to `master` and pull requests targeting it. Open a successful **Build DGI desktop** run and download the `DGI-windows-x64` artifact. The artifact contains the setup executable.
+<details>
+<summary>Use local R6 and R15 rig meshes</summary>
 
-See [AGENTS.md](AGENTS.md) for the Ghost Acrylic tokens, component rules, and verification workflow.
+After `npm ci`, import the R6 FBX archive first, followed by the R15 OBJ archive. The R15 importer reuses the face texture from the installed R6 pack. Both imports preserve the other rig and back up an existing pack before its first update. Restart DGI to load the new meshes.
+
+```powershell
+npm run rig:install -- "C:\path\to\roblox-r6-rigged.zip"
+npm run rig:install:r15 -- "C:\path\to\roblox-r15-rigged-obj-file.zip"
+```
+
+DGI reads `studio-rig-meshes.json` from `%LOCALAPPDATA%\com.dgi.desktop`. The version 1 schema accepts `R6` and `R15` maps from joint names to `vertices` and `triangles`. Vertices use local stud coordinates and triangle indices are zero-based. A local export can also define `r6Rig` or `r15Rig` entries for each part using `parent`, `size`, `c0`, and `c1`. Each CFrame has three position values followed by nine row-major rotation values. Parts can provide `color`, and a head can include `uv` with a top-left origin and a Base64 `texturePng` or `frontDecalPng`.
+
+</details>
+
+The [website source and deploy instructions](site/README.md) are in `site/`. See [AGENTS.md](AGENTS.md) for the shared Ghost Acrylic design system.
+
+DGI Cache Studio is an independent desktop utility unaffiliated with Roblox Corporation.
