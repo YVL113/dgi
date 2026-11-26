@@ -58,7 +58,7 @@ await Promise.all([
   copyFile(resolve(source, '../src/design-system.css'), resolve(product, 'design-system.css')),
   copyFile(resolve(font, 'files/plus-jakarta-sans-latin-wght-normal.woff2'), resolve(product, 'assets/plus-jakarta-sans.woff2')),
   copyFile(resolve(font, 'LICENSE'), resolve(product, 'assets/plus-jakarta-sans-LICENSE.txt')),
-  ...['styles.css', 'theme.js', 'assets/dgi-preview.webp', 'assets/dgi-animation.webp', 'assets/dgi-audio.webp',
+  ...['styles.css', 'theme.js', 'carousel.js', 'assets/dgi-preview.webp', 'assets/dgi-animation.webp', 'assets/dgi-audio.webp',
     'assets/dgi-changes.webp', 'assets/dgi-share.webp', 'assets/dgi-wordmark.png']
     .map(file => copyFile(resolve(source, file), resolve(product, file))),
   ...(origin ? [writeFile(resolve(product, 'sitemap.xml'),

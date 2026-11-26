@@ -109,18 +109,39 @@ h1 { font-size: clamp(2rem, 4.1vw, 3.5rem); font-weight: 750; }
 }
 .format-icon .icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
+.preview-carousel { margin-block-start: var(--space-lg); }
+.preview-carousel[data-ready] { display: grid; max-width: 640px; margin-inline: auto; }
+.carousel-controls {
+  grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+.carousel-controls[hidden] { display: none; }
+.carousel-navigation { display: flex; align-items: center; gap: var(--space-sm); }
+.carousel-position { color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; }
 .screenshot-gallery {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-md);
-  margin: var(--space-lg) 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
+}
+.preview-carousel[data-ready] .screenshot-gallery {
+  grid-template-columns: minmax(0, 1fr);
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  touch-action: pan-y pinch-zoom;
 }
 .screenshot-gallery a { display: grid; gap: var(--space-sm); border-radius: var(--radius-sm); }
 .screenshot-gallery img { border-radius: var(--radius-sm); cursor: zoom-in; }
 .screenshot-gallery span { color: var(--muted); font-size: .875rem; font-weight: 650; }
 .screenshot-gallery a:hover span { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.preview-carousel[data-ready] .screenshot-gallery a:focus-visible { outline-offset: -2px; }
 
 .workspace-grid, .faq-grid {
   display: grid;
@@ -198,6 +219,9 @@ h1 { font-size: clamp(2rem, 4.1vw, 3.5rem); font-weight: 750; }
   }
 
   .hero-preview img { animation: preview-dock 560ms var(--motion-arrive); }
+  .screenshot-gallery [data-enter] { animation: screenshot-in 340ms var(--motion-arrive); }
+  .screenshot-gallery [data-enter="next"] { --slide-offset: 24px; }
+  .screenshot-gallery [data-enter="previous"] { --slide-offset: -24px; }
   .faq-list summary::after { transition: transform 180ms var(--motion-arrive); }
 
   @supports selector(details::details-content) and (interpolate-size: allow-keywords) {
@@ -225,4 +249,9 @@ h1 { font-size: clamp(2rem, 4.1vw, 3.5rem); font-weight: 750; }
     transform: translateX(12px);
   }
   to { clip-path: inset(0 round var(--radius-sm)); transform: translateX(0); }
+}
+
+@keyframes screenshot-in {
+  from { opacity: .25; transform: translateX(var(--slide-offset)); }
+  to { opacity: 1; transform: translateX(0); }
 }
